@@ -57,7 +57,7 @@ BarWidget {
       "show",
       JSON.stringify({
         icon: "keyboard",
-        message: "Keyboard: " + layout.description,
+        message: layout.description,
         duration: 1400
       })
     ])
