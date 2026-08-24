@@ -194,7 +194,7 @@ BarWidget {
     open: root.opened
     focusTarget: keyCatcher
     contentWidth: layoutPanel.fittedContentWidth(Style.space(320))
-    contentHeight: layoutPanel.fittedContentHeight(panelColumn.implicitHeight, Style.space(560))
+    contentHeight: layoutPanel.fittedContentHeight(popupColumn.implicitHeight, Style.space(560))
 
     PanelKeyCatcher {
       id: keyCatcher
