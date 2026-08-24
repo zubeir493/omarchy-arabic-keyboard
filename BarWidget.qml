@@ -123,6 +123,16 @@ BarWidget {
     onTriggered: root.refresh()
   }
 
+  IpcHandler {
+    target: "zubeyr.keyboard-layout"
+    function open(): void { root.refresh(); layoutPopup.open() }
+    function close(): void { layoutPopup.close() }
+    function toggle(): void {
+      if (layoutPopup.opened) layoutPopup.close()
+      else { root.refresh(); layoutPopup.open() }
+    }
+  }
+
   visible: root.layouts.length > 1
   implicitWidth: button.implicitWidth
   implicitHeight: button.implicitHeight

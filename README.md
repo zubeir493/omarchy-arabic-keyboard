@@ -13,12 +13,12 @@ author. The keymap is optional; the widget works with any existing
 ## Install
 
 ```bash
+omarchy plugin disable omarchy.keyboard-layout
 omarchy plugin add https://github.com/zubeir493/omarchy-arabic-keyboard.git --enable --yes
 ```
 
-The plugin is enabled in the center section by default. If the built-in
-keyboard widget is still present, remove `omarchy.keyboard-layout` from the
-center section of `~/.config/omarchy/shell.json`.
+The first command removes the built-in cycle-only indicator. The plugin is
+enabled in the center section by default.
 
 Click the bar label to open the menu. `Alt+Space` remains the fast keyboard
 shortcut when the configured XKB keymap provides it.
