@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
@@ -18,6 +17,10 @@ BarWidget {
   property var layouts: []
   property var catalog: ({})
   property bool refreshPending: false
+  property bool opened: false
+  property int selectedIndex: 0
+  property bool hasReportedLayout: false
+  property string lastReportedLayout: ""
 
   readonly property var activeLayout: layouts.length > activeIndex ? layouts[activeIndex] : null
   readonly property string activeLabel: activeLayout ? activeLayout.brief : ""
@@ -31,10 +34,40 @@ BarWidget {
     devicesProc.running = true
   }
 
+  function open() {
+    root.refresh()
+    root.selectedIndex = root.activeIndex
+    root.opened = true
+  }
+
+  function close() {
+    root.opened = false
+  }
+
+  function toggle() {
+    if (root.opened) root.close()
+    else root.open()
+  }
+
+  function showLayoutOsd(layout) {
+    if (!layout || !layout.description) return
+    Quickshell.execDetached([
+      "omarchy-shell",
+      "osd",
+      "show",
+      JSON.stringify({
+        icon: "keyboard",
+        message: "Keyboard: " + layout.description,
+        duration: 1400
+      })
+    ])
+  }
+
   function choose(index) {
     if (!root.keyboardName || !root.bar) return
+    root.selectedIndex = index
     root.bar.run("hyprctl switchxkblayout " + Util.shellQuote(root.keyboardName) + " " + index)
-    layoutPopup.close()
+    root.close()
     refreshTimer.restart()
   }
 
@@ -58,6 +91,18 @@ BarWidget {
       keyboard.active_keymap,
       root.catalog
     )
+
+    if (!root.opened) root.selectedIndex = root.activeIndex
+
+    var layout = root.activeLayout
+    var layoutToken = root.keyboardName + "|" + root.activeIndex + "|" + (layout ? layout.description : "")
+    if (!root.hasReportedLayout) {
+      root.lastReportedLayout = layoutToken
+      root.hasReportedLayout = true
+    } else if (layoutToken !== root.lastReportedLayout) {
+      root.lastReportedLayout = layoutToken
+      root.showLayoutOsd(layout)
+    }
   }
 
   Component.onCompleted: {
@@ -125,12 +170,9 @@ BarWidget {
 
   IpcHandler {
     target: "zubeyr.keyboard-layout"
-    function open(): void { root.refresh(); layoutPopup.open() }
-    function close(): void { layoutPopup.close() }
-    function toggle(): void {
-      if (layoutPopup.opened) layoutPopup.close()
-      else { root.refresh(); layoutPopup.open() }
-    }
+    function open(): void { root.open() }
+    function close(): void { root.close() }
+    function toggle(): void { root.toggle() }
   }
 
   visible: root.layouts.length > 1
@@ -147,32 +189,34 @@ BarWidget {
     tooltipText: root.activeLayout ? root.activeLayout.description : "Keyboard layouts"
     onPressed: function(buttonCode) {
       if (buttonCode !== Qt.LeftButton) return
-      root.refresh()
-      if (layoutPopup.opened) layoutPopup.close()
-      else layoutPopup.open()
+      root.toggle()
     }
   }
 
-  Popup {
-    id: layoutPopup
-    x: button.x + button.width - width
-    y: button.y + button.height + Style.space(4)
-    width: Style.space(320)
-    padding: 0
-    modal: false
-    focus: true
-    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+  KeyboardPanel {
+    id: layoutPanel
+    anchorItem: button
+    owner: root
+    bar: root.bar
+    open: root.opened
+    focusTarget: keyCatcher
+    contentWidth: layoutPanel.fittedContentWidth(Style.space(320))
+    contentHeight: layoutPanel.fittedContentHeight(panelColumn.implicitHeight, Style.space(560))
 
-    background: BorderSurface {
-      color: Color.background
-      borderSpec: Border.flat(root.bar ? root.bar.foreground : Color.foreground, 1)
-      radius: Style.cornerRadius
-    }
+    PanelKeyCatcher {
+      id: keyCatcher
+      anchors.fill: parent
+      onMoveRequested: function(dx, dy) {
+        if (dy === 0 || root.layouts.length === 0) return
+        root.selectedIndex = (root.selectedIndex + dy + root.layouts.length) % root.layouts.length
+      }
+      onActivateRequested: root.choose(root.selectedIndex)
+      onCloseRequested: root.close()
 
-    contentItem: Column {
-      id: popupColumn
-      width: parent.width
-      spacing: 0
+      Column {
+        id: popupColumn
+        width: parent.width
+        spacing: 0
 
       Item {
         width: parent.width
@@ -221,7 +265,7 @@ BarWidget {
               required property int index
               width: layoutChoices.width
               height: Style.space(48)
-              color: mouse.containsMouse
+              color: mouse.containsMouse || modelData.index === root.selectedIndex
                 ? (root.bar ? Qt.lighter(root.bar.background, 1.18) : Qt.lighter(Color.background, 1.18))
                 : "transparent"
 
@@ -251,7 +295,7 @@ BarWidget {
                 }
 
                 Text {
-                  text: modelData.active ? "✓" : ""
+                  text: modelData.active ? "✓" : (modelData.index === root.selectedIndex ? "•" : "")
                   color: root.bar ? root.bar.foreground : Color.foreground
                   font.family: root.bar ? root.bar.fontFamily : Style.font.family
                   font.pixelSize: Style.font.bodySmall
