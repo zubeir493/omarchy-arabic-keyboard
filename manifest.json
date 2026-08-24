@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "zubeyr.keyboard-layout",
+  "name": "Keyboard layout selector",
+  "version": "1.0.0",
+  "author": "zubeir493",
+  "license": "MIT",
+  "description": "A macOS-style Omarchy bar menu for selecting any enabled keyboard layout.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Keyboard layouts",
+    "description": "Select an enabled keyboard layout",
+    "category": "Compositor",
+    "defaultSection": "center",
+    "allowMultiple": false
+  }
+}

@@ -1,0 +1,67 @@
+xkb_keymap {
+    xkb_keycodes { include "evdev+aliases(qwerty)" };
+    xkb_types { include "complete" };
+    xkb_compat { include "complete" };
+
+    xkb_symbols {
+        include "pc+us+inet(evdev)"
+        name[Group2] = "Hameem Arabic";
+
+        key <TLDE> { [ grave, asciitilde ], [ U0621, U0622 ] };
+        key <AE01> { [ 1, exclam ], [ U0661, exclam ] };
+        key <AE02> { [ 2, at ], [ U0662, at ] };
+        key <AE03> { [ 3, numbersign ], [ U0663, numbersign ] };
+        key <AE04> { [ 4, dollar ], [ U0664, dollar ] };
+        key <AE05> { [ 5, percent ], [ U0665, percent ] };
+        key <AE06> { [ 6, asciicircum ], [ U0666, asciicircum ] };
+        key <AE07> { [ 7, ampersand ], [ U0667, ampersand ] };
+        key <AE08> { [ 8, asterisk ], [ U0668, asterisk ] };
+        key <AE09> { [ 9, parenleft ], [ U0669, parenleft ] };
+        key <AE10> { [ 0, parenright ], [ U0660, parenright ] };
+        key <AE11> { [ minus, underscore ], [ minus, U0640 ] };
+        key <AE12> { [ equal, plus ], [ equal, plus ] };
+
+        key <AD01> { [ q, Q ], [ U0642, NoSymbol ] };
+        key <AD02> { [ w, W ], [ U0648, U0624 ] };
+        key <AD03> { [ e, E ], [ U0626, U0625 ] };
+        key <AD04> { [ r, R ], [ U0631, NoSymbol ] };
+        key <AD05> { [ t, T ], [ U062A, U062B ] };
+        key <AD06> { [ y, Y ], [ U064A, U0649 ] };
+        key <AD07> { [ u, U ], [ U064E, U064B ] };
+        key <AD08> { [ i, I ], [ U0650, U064D ] };
+        key <AD09> { [ o, O ], [ U064F, U064C ] };
+        key <AD10> { [ p, P ], [ U0637, U0638 ] };
+        key <AD11> { [ bracketleft, braceleft ], [ bracketleft, braceleft ] };
+        key <AD12> { [ bracketright, braceright ], [ bracketright, braceright ] };
+
+        key <AC01> { [ a, A ], [ U0627, U0623 ] };
+        key <AC02> { [ s, S ], [ U0633, U0634 ] };
+        key <AC03> { [ d, D ], [ U062F, U0630 ] };
+        key <AC04> { [ f, F ], [ U0641, U06A4 ] };
+        key <AC05> { [ g, G ], [ U0639, U063A ] };
+        key <AC06> { [ h, H ], [ U0647, U0629 ] };
+        key <AC07> { [ j, J ], [ U062C, U0686 ] };
+        key <AC08> { [ k, K ], [ U0643, U06AF ] };
+        key <AC09> { [ l, L ], [ U0644, UFEFB ] };
+        key <AC10> { [ semicolon, colon ], [ U061B, colon ] };
+        key <AC11> { [ apostrophe, quotedbl ], [ apostrophe, quotedbl ] };
+
+        key <AB01> { [ z, Z ], [ U0632, U0698 ] };
+        key <AB02> { [ x, X ], [ U062D, U062E ] };
+        key <AB03> { [ c, C ], [ U0635, U0636 ] };
+        key <AB04> { [ v, V ], [ U0652, U0651 ] };
+        key <AB05> { [ b, B ], [ U0628, U067E ] };
+        key <AB06> { [ n, N ], [ U0646, NoSymbol ] };
+        key <AB07> { [ m, M ], [ U0645, NoSymbol ] };
+        key <AB08> { [ comma, less ], [ U060C, less ] };
+        key <AB09> { [ period, greater ], [ period, greater ] };
+        key <AB10> { [ slash, question ], [ slash, U061F ] };
+        key <BKSL> { [ backslash, bar ], [ backslash, bar ] };
+
+        include "compose(caps)"
+        include "shift(both_capslock_cancel)"
+        include "group(alt_space_toggle)"
+    };
+
+    xkb_geometry { include "pc(pc105)" };
+};
