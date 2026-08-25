@@ -20,8 +20,18 @@ omarchy plugin add https://github.com/zubeir493/omarchy-arabic-keyboard.git --en
 The first command removes the built-in cycle-only indicator. The plugin is
 enabled in the center section by default.
 
-Click the bar label to open the menu. `Alt+Space` remains the fast keyboard
-shortcut when the configured XKB keymap provides it.
+Click the bar label to open the menu. `Super+Space` remains the fast keyboard
+shortcut when the configured XKB keymap provides it. `Alt+Space` opens the
+Omarchy root menu.
+
+To apply the shortcut swap on another Omarchy machine, add this to
+`~/.config/hypr/bindings.lua`:
+
+```lua
+hl.unbind("SUPER + SPACE")
+hl.unbind("ALT + SPACE")
+o.bind("ALT + SPACE", "Omarchy menu", "omarchy-menu toggle")
+```
 
 ## Hameem keymap
 

@@ -232,7 +232,7 @@ BarWidget {
           anchors.leftMargin: Style.space(16)
           anchors.bottom: parent.bottom
           anchors.bottomMargin: Style.space(8)
-          text: "Alt + Space to switch"
+          text: "Super + Space to switch"
           color: root.bar ? Qt.darker(root.bar.foreground, 1.5) : Qt.darker(Color.foreground, 1.5)
           font.family: root.bar ? root.bar.fontFamily : Style.font.family
           font.pixelSize: Style.font.caption

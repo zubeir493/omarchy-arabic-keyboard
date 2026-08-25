@@ -60,7 +60,7 @@ xkb_keymap {
 
         include "compose(caps)"
         include "shift(both_capslock_cancel)"
-        include "group(alt_space_toggle)"
+        include "group(win_space_toggle)"
     };
 
     xkb_geometry { include "pc(pc105)" };
