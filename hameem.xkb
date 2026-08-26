@@ -6,7 +6,7 @@ xkb_keymap {
         // Switch layouts only with Super+Space. Keep Super+Alt+Space on
         // level 1 so Hyprland can use it exclusively for the Apps menu.
         type "HAMEEM_SUPER_ONLY_LEVEL2" {
-            modifiers = Super+Alt;
+            modifiers = Shift+Control+Alt+Super;
             map[None] = Level1;
             map[Super] = Level2;
             map[Alt] = Level1;
