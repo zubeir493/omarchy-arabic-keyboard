@@ -1,6 +1,20 @@
 xkb_keymap {
     xkb_keycodes { include "evdev+aliases(qwerty)" };
-    xkb_types { include "complete" };
+    xkb_types {
+        include "complete"
+
+        // Switch layouts only with Super+Space. Keep Super+Alt+Space on
+        // level 1 so Hyprland can use it exclusively for the Apps menu.
+        type "HAMEEM_SUPER_ONLY_LEVEL2" {
+            modifiers = Super+Alt;
+            map[None] = Level1;
+            map[Super] = Level2;
+            map[Alt] = Level1;
+            map[Super+Alt] = Level1;
+            level_name[Level1] = "Base";
+            level_name[Level2] = "Super";
+        };
+    };
     xkb_compat { include "complete" };
 
     xkb_symbols {
@@ -60,7 +74,7 @@ xkb_keymap {
 
         include "compose(caps)"
         include "shift(both_capslock_cancel)"
-        include "group(win_space_toggle)"
+        key <SPCE> { [ space, ISO_Next_Group ], type[group1] = "HAMEEM_SUPER_ONLY_LEVEL2" };
     };
 
     xkb_geometry { include "pc(pc105)" };

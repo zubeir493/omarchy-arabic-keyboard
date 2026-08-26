@@ -49,7 +49,7 @@ hl.config({
     kb_file = os.getenv("HOME") .. "/.config/xkb/hameem.xkb",
     kb_layout = "us,hameem",
     kb_variant = ",",
-    kb_options = "compose:caps,shift:both_capslock_cancel,grp:win_space_toggle",
+    kb_options = "compose:caps,shift:both_capslock_cancel",
   },
 })
 ```
